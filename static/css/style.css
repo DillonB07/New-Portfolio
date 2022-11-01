@@ -1,0 +1,141 @@
+:root {
+  --g1: rgb(98, 0, 234);
+  --g2: rgb(236, 64, 122);
+
+  --tiles: rgba(41, 48, 57, 1);
+  --title: rgba(91, 221, 227, 1);
+  --subheading: rgba(195, 237, 239, 1);
+  --paragraph: rgba(222, 223, 224, 1);
+  --link: rgba(85, 111, 117, 1);
+}
+
+body {
+  background: linear-gradient(to right, var(--g1), var(--g2), var(--g1));
+  animation: background-pan 10s linear infinite;
+  background-size: 200%;
+  height: 100vh;
+  overflow: hidden;
+  margin: 0px;
+  color: var(--paragraph);
+}
+
+*.hidden {
+  color: black;
+}
+
+@keyframes background-pan {
+  from {
+    background-position: 0% center;
+  }
+  to {
+    background-position: -200% center;
+  }
+}
+
+body.toggled {
+  animation: none;
+}
+
+body.toggled > #title {
+  opacity: 0;
+}
+
+body.toggled > #tiles > .tile:hover {
+  opacity: 0.1 !important;
+}
+
+#tiles {
+  height: 100vh;
+  width: 100vw;
+  display: grid;
+  position: relative;
+  z-index: 2;
+  grid-template-columns: repeat(var(--columns), 1fr);
+  grid-template-rows: repeat(var(--rows), 1fr);
+}
+
+.tile {
+  position: relative;
+}
+
+.tile:before {
+  background-color: var(--tiles);
+  content: "";
+  position: absolute;
+  inset: 0.5px;
+}
+
+.tile:hover {
+  opacity: 0.95;
+}
+
+body.toggled > #tiles > .tile:hover {
+  opacity: 0.03 !important;
+}
+
+.title {
+  color: var(--title);
+  font-family: "Rubik", sans-serif;
+  font-size: 6vw;
+  margin: 0px;
+  pointer-events: none;
+  transition: opacity 1200ms ease;
+  width: 50vw;
+}
+
+.subtitle {
+  color: var(--subheading);
+}
+
+.centered {
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+body:not(.toggled) > *.hidden {
+  animation: fade_out 3s;
+  z-index: -3;
+  opacity: 0;
+}
+
+body.toggled > *.hidden {
+  animation: fade_in 3s;
+  z-index: 3;
+  opacity: 1;
+}
+
+body:not(.toggled) > *:not(#tile, .tile, .hidden) {
+  animation: fade_in 3s;
+  z-index: 3;
+  opacity: 1;
+}
+
+body.toggled > *:not(.tiles, #tiles) {
+  animation: fade_out 3s;
+  z-index: -3;
+  opacity: 0;
+}
+
+@keyframes fade_out {
+  from {
+    opacity: 1;
+    z-index: 3;
+  }
+  to {
+    opacity: 0;
+    z-index: -3;
+  }
+}
+
+@keyframes fade_in {
+  from {
+    opacity: 0;
+    z-index: -3;
+  }
+  to {
+    opacity: 1;
+    z-index: 3;
+  }
+}
