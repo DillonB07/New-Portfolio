@@ -95,14 +95,14 @@ body.toggled > #tiles > .tile:hover {
 }
 
 body:not(.toggled) > *:not(#tile, .tile, .hidden),
-body.toggled > *.hidden {
+body.toggled > .hidden {
 	animation: fade_in 3s;
 	z-index: 3;
 	opacity: 1;
 }
 
 body.toggled > *:not(.tiles, #tiles),
-body:not(.toggled) > *.hidden {
+body:not(.toggled) > .hidden {
 	animation: fade_out 3s;
 	z-index: -3;
 	opacity: 0;
