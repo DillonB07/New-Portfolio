@@ -1,131 +1,139 @@
 :root {
-	--g1: rgb(98, 0, 234);
-	--g2: rgb(236, 64, 122);
+  --g1: rgb(98, 0, 234);
+  --g2: rgb(236, 64, 122);
 
-	--tiles: rgba(41, 48, 57, 1);
-	--title: rgba(91, 221, 227, 1);
-	--subheading: rgba(195, 237, 239, 1);
-	--paragraph: rgba(222, 223, 224, 1);
-	--link: rgba(85, 111, 117, 1);
+  --tiles: rgba(41, 48, 57, 1);
+  --title: rgba(91, 221, 227, 1);
+  --subheading: rgba(195, 237, 239, 1);
+  --paragraph: rgba(222, 223, 224, 1);
+  --link: rgba(85, 111, 117, 1);
+
+  --z-hidden: 2;
+  --z-visible: 4;
+
+  --opacity-visible: 1;
+  --opacity-hidden: 0;
 }
 
 body {
-	background: linear-gradient(to right, var(--g1), var(--g2), var(--g1));
-	animation: background-pan 10s linear infinite;
-	background-size: 200%;
-	height: 100vh;
-	overflow: hidden;
-	margin: 0px;
-	color: var(--paragraph);
+  background: linear-gradient(to right, var(--g1), var(--g2), var(--g1));
+  animation: background-pan 10s linear infinite;
+  background-size: 200%;
+  height: 100vh;
+  overflow: hidden;
+  margin: 0px;
+  color: var(--paragraph);
 }
 
 *.hidden {
-	color: black;
+  color: black;
 }
 
 @keyframes background-pan {
-	from {
-		background-position: 0% center;
-	}
-	to {
-		background-position: -200% center;
-	}
+  from {
+    background-position: 0% center;
+  }
+  to {
+    background-position: -200% center;
+  }
 }
 
 body.toggled {
-	animation: none;
+  animation: none;
 }
 
 body.toggled > #title {
-	opacity: 0;
+  opacity: 0;
 }
 
 body.toggled > #tiles > .tile:hover {
-	opacity: 0.1 !important;
+  opacity: 0.1 !important;
 }
 
 #tiles {
-	height: 100vh;
-	width: 100vw;
-	display: grid;
-	position: relative;
-	z-index: 2;
-	grid-template-columns: repeat(var(--columns), 1fr);
-	grid-template-rows: repeat(var(--rows), 1fr);
+  height: 100vh;
+  width: 100vw;
+  display: grid;
+  position: relative;
+  z-index: 2;
+  grid-template-columns: repeat(var(--columns), 1fr);
+  grid-template-rows: repeat(var(--rows), 1fr);
 }
 
 .tile {
-	position: relative;
+  position: relative;
 }
 
 .tile:before {
-	background-color: var(--tiles);
-	content: "";
-	position: absolute;
-	inset: 0.5px;
+  background-color: var(--tiles);
+  content: "";
+  position: absolute;
+  inset: 0.5px;
 }
 
 .tile:hover {
-	opacity: 0.95;
+  opacity: 0.95;
 }
 
 body.toggled > #tiles > .tile:hover {
-	opacity: 0.03 !important;
+  opacity: 0.03 !important;
 }
 
 .title {
-	color: var(--title);
-	font-family: "Rubik", sans-serif;
-	font-size: 6vw;
-	margin: 0px;
-	pointer-events: none;
-	transition: opacity 1200ms ease;
-	width: 50vw;
+  color: var(--title);
+  font-family: "Rubik", sans-serif;
+  font-size: 6vw;
+  margin: 0px;
+  pointer-events: none;
+  transition: opacity 1200ms ease;
+  width: 50vw;
 }
 
 .subtitle {
-	color: var(--subheading);
+  color: var(--subheading);
 }
 
 .centered {
-	left: 50%;
-	position: absolute;
-	top: 50%;
-	transform: translate(-50%, -50%);
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
-body:not(.toggled) > *:not(#tile, .tile, .hidden),
-body.toggled > .hidden {
-	animation: fade_in 3s;
-	z-index: 3;
-	opacity: 1;
+body:not(.toggled) > *:not(#tiles, .tile, .hidden), /* If the body isn't toggled then target everything other than hidden items and tiles */
+body.toggled > *.hidden {
+  /* If the body is toggled then target everything hidden */
+  animation: fade_in 3s;
+  z-index: var(--z-visible);
+  opacity: var(--opacity-visible);
 }
 
-body.toggled > *:not(.tiles, #tiles),
-body:not(.toggled) > .hidden {
-	animation: fade_out 3s;
-	z-index: -3;
-	opacity: 0;
+body.toggled > *:not(.tile, #tiles, .hidden), /* If the body is toggled, then target everything other than tiles */
+body:not(.toggled) > *.hidden {
+  /* If the body is not toggled then target everything hidden */
+  animation: fade_out 3s;
+  z-index: var(--z-hidden);
+  opacity: var(--opacity-hidden);
 }
 
 @keyframes fade_out {
-	from {
-		opacity: 1;
-		z-index: 3;
-	}
-	to {
-		opacity: 0;
-		z-index: -3;
-	}
+  from {
+    opacity: var(--opacity-visible);
+    z-index: var(--z-visible);
+  }
+  to {
+    opacity: var(--opacity-hidden);
+    z-index: var(--z-hidden);
+  }
 }
 
 @keyframes fade_in {
-	from {
-		opacity: 0;
-		z-index: -3;
-	}
-	to {
-		opacity: 1;
-		z-index: 3;
-	}
+  from {
+    opacity: var(--opacity-hidden);
+    z-index: var(--z-hidden);
+  }
+  to {
+    opacity: var(--opacity-visible);
+    z-index: var(--z-visible);
+  }
 }
