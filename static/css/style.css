@@ -98,6 +98,7 @@ body.toggled > #tiles > .tile:hover {
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
+  width: 50%;
 }
 
 body:not(.toggled) > *:not(#tiles, .tile, .hidden), /* If the body isn't toggled then target everything other than hidden items and tiles */
@@ -113,8 +114,15 @@ body:not(.toggled) > *.hidden {
   /* If the body is not toggled then target everything hidden */
   animation: fade_out 3s;
   z-index: var(--z-hidden);
-  opacity: var(--opacity-hidden);
+/*   opacity: var(--opacity-hidden); */
 }
+
+h2.hidden { display: none; }
+
+body.toggled h2.hidden { display: block;}
+
+body.toggled .title, body.toggled .subtitle { display: none;}
+
 
 @keyframes fade_out {
   from {
